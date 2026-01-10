@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://gitlab.com/orion-hub/orion-hub-deployment-config.git
     targetRevision: master
-    path: charts/spring-boot-app
+    path: deployment-config/orion-hub-helm-chart
     helm:
       valueFiles:
         - environments/dev/product-service.yaml
