@@ -10,6 +10,9 @@ containerPort: 8080
 spring:
   profile: dev
 
+imagePullSecrets:
+  - name: gitlab-registry
+
 service:
   type: ClusterIP
   port: 80

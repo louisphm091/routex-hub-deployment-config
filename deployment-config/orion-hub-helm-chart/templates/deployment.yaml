@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "orion-hub-helm-chart.selectorLabels" . | nindent 8 }}
     spec:
+      imagePullSecrets:
+      {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       serviceAccountName: {{ include "orion-hub-helm-chart.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
