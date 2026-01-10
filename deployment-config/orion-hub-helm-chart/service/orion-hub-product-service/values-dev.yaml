@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.gitlab.com/orion-hub/product-service
+  repository: registry.gitlab.com/orion-hub/orion-hub-product-service
   tag: "latest"
   pullPolicy: IfNotPresent
 
@@ -19,7 +19,7 @@ service:
 
 serviceAccount:
   create: true
-  name: ""
+  name: "product-service"
 
 resources:
   requests:
