@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: product-service-dev
-  namespace: argocd
+  namespace: orion-hub-argocd
 spec:
   project: default
 
