@@ -2,13 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: product-service-dev
-  namespace: argocd
+  namespace: orion-hub-argocd
 spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/e-commerce9074302/deployment-configs.git
-    targetRevision: main
+    repoURL: https://gitlab.com/orion-hub/orion-hub-deployment-config.git
+    targetRevision: master
     path: charts/spring-boot-app
     helm:
       valueFiles:
