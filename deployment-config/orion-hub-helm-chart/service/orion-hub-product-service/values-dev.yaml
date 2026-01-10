@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.gitlab.com/e-commerce9074302/product-service
+  repository: registry.gitlab.com/orion-hub/product-service
   tag: "latest"
   pullPolicy: IfNotPresent
 
