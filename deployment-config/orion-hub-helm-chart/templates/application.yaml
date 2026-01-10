@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/e-commerce9074302/deployment-configs.git
+    repoURL: https://gitlab.com/orion-hub/deployment-configs.git
     targetRevision: main
     path: charts/spring-boot-app
     helm:
