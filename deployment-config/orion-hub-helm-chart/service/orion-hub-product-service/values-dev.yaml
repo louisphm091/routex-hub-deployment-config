@@ -1,0 +1,23 @@
+replicaCount: 2
+
+image:
+  repository: registry.gitlab.com/e-commerce9074302/product-service
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
+
+spring:
+  profile: dev
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
