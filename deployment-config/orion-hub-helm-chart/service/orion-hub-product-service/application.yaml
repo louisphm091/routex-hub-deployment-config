@@ -12,7 +12,7 @@ spec:
     path: deployment-config/orion-hub-helm-chart
     helm:
       valueFiles:
-        - environments/dev/product-service.yaml
+        - service/orion-hub-product-service/values-dev.yaml
 
   destination:
     server: https://kubernetes.default.svc
