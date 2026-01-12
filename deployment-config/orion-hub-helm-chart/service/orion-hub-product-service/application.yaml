@@ -6,13 +6,17 @@ metadata:
 spec:
   project: default
 
-  source:
-    repoURL: https://gitlab.com/orion-hub/orion-hub-deployment-config.git
-    targetRevision: master
-    path: deployment-config/orion-hub-helm-chart
-    helm:
-      valueFiles:
-        - service/orion-hub-product-service/values-dev.yaml
+  sources:
+    - repoURL: https://gitlab.com/orion-hub/orion-hub-deployment-config.git
+      targetRevision: master
+      path: deployment-config/orion-hub-helm-chart
+      helm:
+        valueFiles:
+          - service/orion-hub-product-service/values-dev.yaml
+          -
+    - repoURL: https://gitlab.com/orion-hub/orion-hub-deployment-configs.git
+      targetRevision: main
+      ref: values
 
   destination:
     server: https://kubernetes.default.svc
