@@ -1,4 +1,4 @@
-# orion-hub-deployment-config
+# routex-hub-deployment-config
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/orion-hub/orion-hub-deployment-config.git
+git remote add origin https://gitlab.com/orion-hub/routex-hub-deployment-config.git
 git branch -M master
 git push -uf origin master
 ```
 
 ## Integrate with your tools
 
-* [Set up project integrations](https://gitlab.com/orion-hub/orion-hub-deployment-config/-/settings/integrations)
+* [Set up project integrations](https://gitlab.com/orion-hub/routex-hub-deployment-config/-/settings/integrations)
 
 ## Collaborate with your team
 

@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.orion.helm.chart</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>routex-hub-deployment-config</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>orion-helm-chart-demo</name>
 	<description>Demo project for Spring Boot</description>
