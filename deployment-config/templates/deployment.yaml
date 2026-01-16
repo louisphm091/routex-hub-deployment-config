@@ -62,3 +62,10 @@ spec:
               port: http
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 20 }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probes.startup.path | default "/actuator/health/readiness" }}
+              port: http
+            failureThreshold: {{ .Values.probes.startup.failureThreshold | default 30 }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds | default 5 }}
+            timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds | default 2 }}
