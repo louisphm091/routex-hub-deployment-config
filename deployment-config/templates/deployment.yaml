@@ -33,11 +33,21 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.containerPort | default 8080 }}
+
           env:
             {{- range .Values.env | default list }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
+
+            {{- range .Values.envFromSecret | default list }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secretName | quote }}
+                  key: {{ .key | quote }}
+            {{- end }}
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:
