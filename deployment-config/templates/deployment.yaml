@@ -54,18 +54,25 @@ spec:
             httpGet:
               path: {{ .Values.probes.readiness.path | default "/actuator/health/readiness" }}
               port: http
-            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds | default 15 }}
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds | default 10 }}
             periodSeconds: {{ .Values.probes.readiness.periodSeconds | default 10 }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold | default 6 }}
+
           livenessProbe:
             httpGet:
               path: {{ .Values.probes.liveness.path | default "/actuator/health/liveness" }}
               port: http
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 20 }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold | default 6 }}
+
           startupProbe:
             httpGet:
               path: {{ .Values.probes.startup.path | default "/actuator/health/readiness" }}
               port: http
+            # Cho app tối đa ~150s để boot (30 * 5s)
             failureThreshold: {{ .Values.probes.startup.failureThreshold | default 30 }}
             periodSeconds: {{ .Values.probes.startup.periodSeconds | default 5 }}
             timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds | default 2 }}
