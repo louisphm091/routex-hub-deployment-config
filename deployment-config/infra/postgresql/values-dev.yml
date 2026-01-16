@@ -1,0 +1,17 @@
+auth:
+  username: routex
+  database: routex
+  existingSecret: postgresql-secret
+  secretKeys:
+    adminPasswordKey: POSTGRES_PASSWORD
+    userPasswordKey: POSTGRES_PASSWORD
+
+primary:
+  service:
+    ports:
+      postgresql: 5432
+  persistence:
+    enabled: true
+    size: 5Gi
+
+fullnameOverride: postgresql
