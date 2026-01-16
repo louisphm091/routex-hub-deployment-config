@@ -1,14 +1,18 @@
 nameOverride: driver
+
 fullnameOverride: routex-hub-driver-service
 
 replicaCount: 1
 
 image:
-  repository: ghcr.io/your-org/routex-hub-driver-service
+  repository: registry.gitlab.com/orion-hub/orion-hub-product-service
   tag: "dev"          # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 
 containerPort: 8080
+
+imagePullSecrets:
+  - name: gitlab-registry
 
 serviceAccount:
   create: true
