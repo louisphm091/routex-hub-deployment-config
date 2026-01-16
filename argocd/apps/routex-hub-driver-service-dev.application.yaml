@@ -3,6 +3,22 @@ kind: Application
 metadata:
   name: routex-hub-driver-service-dev
   namespace: argocd
+  annotations:
+    # 1) Image cần theo dõi
+    argocd-image-updater.argoproj.io/image-list: |
+      driver=registry.gitlab.com/orion-hub/routex-hub-driver-service
+
+    # 2) Chỉ lấy tag dạng vX.Y.Z
+    argocd-image-updater.argoproj.io/driver.allow-tags: "regexp:^v\\d+\\.\\d+\\.\\d+$"
+
+    # 3) Chọn tag mới nhất theo semver
+    argocd-image-updater.argoproj.io/driver.update-strategy: semver
+
+    # 4) Ghi lại về GitOps repo
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    # 5) File values để image-updater sửa (phải TRÙNG file bạn đang dùng)
+    argocd-image-updater.argoproj.io/write-back-target: helmvalues:deployment-config/service/routex-hub-driver-service/values-dev.yaml
   labels:
     app: routex-hub-driver-service
     env: dev
