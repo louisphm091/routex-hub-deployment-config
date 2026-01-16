@@ -36,24 +36,24 @@ resources:
     memory: 1Gi
 probes:
   startup:
-    path: /actuator/health/readiness
-    failureThreshold: 30
+    path: /actuator/health
+    failureThreshold: 60
     periodSeconds: 5
-    timeoutSeconds: 2
+    timeoutSeconds: 3
 
   readiness:
     path: /actuator/health/readiness
     initialDelaySeconds: 10
     periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 6
+    timeoutSeconds: 3
+    failureThreshold: 10
 
   liveness:
     path: /actuator/health/liveness
-    initialDelaySeconds: 30
+    initialDelaySeconds: 60
     periodSeconds: 20
-    timeoutSeconds: 2
-    failureThreshold: 6
+    timeoutSeconds: 3
+    failureThreshold: 10
 ingress:
   enabled: true
   className: nginx
