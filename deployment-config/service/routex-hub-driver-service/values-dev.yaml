@@ -5,7 +5,7 @@ fullnameOverride: routex-hub-driver-service
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/orion-hub/orion-hub-product-service
+  repository: registry.gitlab.com/orion-hub/routex-hub-driver-service
   tag: "dev"          # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 
