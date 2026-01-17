@@ -50,6 +50,25 @@ spec:
             {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          {{- if and .Values.probes .Values.probes.startupProbe .Values.probes.startupProbe.enabled }}
+          startupProbe:
+          {{- if eq (.Values.probes.startupProbe.type | default "tcp") "tcp" }}
+            tcpSocket:
+              port: {{ .Values.probes.startupProbe.port | default (.Values.containerPort | default 8080) }}
+                    {{- else }}
+            httpGet:
+              path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
+              port: http
+                      {{- with .Values.probes.startupProbe.httpGet.httpHeaders }}
+              httpHeaders:
+              {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- end }}
+            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 5 }}
+            timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 60 }}
+            {{- end }}
+            {{- if and .Values.probes .Values.probes.readinessProbe .Values.probes.readinessProbe.enabled }}
           readinessProbe:
           {{- if eq (.Values.probes.readinessProbe.type | default "tcp") "tcp" }}
             tcpSocket:
@@ -67,6 +86,7 @@ spec:
             timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 2 }}
             failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold | default 12 }}
             successThreshold: {{ .Values.probes.readinessProbe.successThreshold | default 1 }}
+            {{- end }}
             {{- if and .Values.probes .Values.probes.livenessProbe .Values.probes.livenessProbe.enabled }}
           livenessProbe:
           {{- if eq (.Values.probes.livenessProbe.type | default "tcp") "tcp" }}
