@@ -39,15 +39,19 @@ probes:
     httpGet:
       path: /actuator/health/readiness
       port: http
-    initialDelaySeconds: 40
-    periodSeconds: 60
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 12
+
   livenessProbe:
     httpGet:
       path: /actuator/health/liveness
       port: http
-    initialDelaySeconds: 40
-    periodSeconds: 60
-    successThreshold: 1
+    initialDelaySeconds: 60
+    periodSeconds: 20
+    timeoutSeconds: 5
+    failureThreshold: 6
 
 ingress:
   enabled: true
