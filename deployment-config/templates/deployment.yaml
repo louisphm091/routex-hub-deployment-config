@@ -49,56 +49,55 @@ spec:
                   key: {{ .key | quote }}
             {{- end }}
           resources:
-                    {{- toYaml .Values.resources | nindent 12 }}
-
-                  {{- if .Values.probes.startupProbe.enabled }}
+                      {{- toYaml .Values.resources | nindent 12 }}
+                    {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
-                    {{- if eq (.Values.probes.startupProbe.type | default "http") "tcp" }}
+                      {{- if eq (.Values.probes.startupProbe.type | default "http") "tcp" }}
             tcpSocket:
               port: {{ .Values.probes.startupProbe.port | default 8080 }}
-                    {{- else }}
+                      {{- else }}
             httpGet:
-              path: {{ .Values.probes.startupProbe.path | quote }}
+              path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
               port: http
-                      {{- if .Values.probeAuth.enabled }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
+                        {{- end }}
                       {{- end }}
-                    {{- end }}
             periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 5 }}
             timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds | default 2 }}
             failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 60 }}
-                  {{- end }}
+                    {{- end }}
 
-                  {{- if .Values.probes.readinessProbe.enabled }}
+                    {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.probes.readinessProbe.path | quote }}
+              path: {{ .Values.probes.readinessProbe.httpGet.path | quote }}
               port: http
-                      {{- if .Values.probeAuth.enabled }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
-                      {{- end }}
+                        {{- end }}
             periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
             timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 2 }}
             failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold | default 6 }}
             successThreshold: {{ .Values.probes.readinessProbe.successThreshold | default 1 }}
-                  {{- end }}
+                    {{- end }}
 
-                  {{- if .Values.probes.livenessProbe.enabled }}
+                    {{- if .Values.probes.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.probes.livenessProbe.path | quote }}
+              path: {{ .Values.probes.livenessProbe.httpGet.path | quote }}
               port: http
-                      {{- if .Values.probeAuth.enabled }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
-                      {{- end }}
+                        {{- end }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
             timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 2 }}
             failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 3 }}
             successThreshold: {{ .Values.probes.livenessProbe.successThreshold | default 1 }}
-                  {{- end }}
+              {{- end }}

@@ -34,38 +34,43 @@ resources:
   limits:
     cpu: "1"
     memory: 1Gi
-
 probes:
   startupProbe:
     enabled: true
-    type: http
+    type: tcp
     port: 8080
-    path: /actuator/health/readiness
+    httpGet:
+      path: /actuator/health/readiness
     periodSeconds: 5
-    timeoutSeconds: 3
-    failureThreshold: 120   # ~10 phút cho app bank nặng
+    timeoutSeconds: 2
+    failureThreshold: 90
 
   readinessProbe:
     enabled: true
-    path: /actuator/health/readiness
+    type: tcp
+    port: 8080
+    httpGet:
+      path: /actuator/health/readiness
     periodSeconds: 10
-    timeoutSeconds: 3
-    failureThreshold: 6
+    timeoutSeconds: 2
+    failureThreshold: 12
     successThreshold: 1
 
   livenessProbe:
     enabled: true
-    path: /actuator/health/liveness
+    type: tcp
+    port: 8080
+    httpGet:
+      path: /actuator/health/liveness
     periodSeconds: 20
-    timeoutSeconds: 3
-    failureThreshold: 3
+    timeoutSeconds: 2
+    failureThreshold: 6
     successThreshold: 1
 
 probeAuth:
   enabled: true
   # base64("admin:admin") ví dụ -> đổi theo user/pass bạn đang dùng
   authorization: "Basic YWRtaW46YWRtaW4="
-
 ingress:
   enabled: true
   className: nginx
