@@ -41,7 +41,7 @@ probes:
     port: 8080
     periodSeconds: 5
     timeoutSeconds: 2
-    failureThreshold: 120   # ~10 phút
+    failureThreshold: 90
 
   readinessProbe:
     enabled: true
