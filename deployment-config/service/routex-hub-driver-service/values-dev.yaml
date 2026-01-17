@@ -61,6 +61,11 @@ probes:
     failureThreshold: 6
     successThreshold: 1
 
+probeAuth:
+  enabled: true
+  # base64("admin:admin") ví dụ -> đổi theo user/pass bạn đang dùng
+  authorization: "Basic YWRtaW46YWRtaW4="
+
 ingress:
   enabled: true
   className: nginx

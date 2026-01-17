@@ -69,40 +69,34 @@ spec:
             failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 60 }}
             {{- end }}
             {{- if and .Values.probes .Values.probes.readinessProbe .Values.probes.readinessProbe.enabled }}
+          {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
-          {{- if eq (.Values.probes.readinessProbe.type | default "tcp") "tcp" }}
-            tcpSocket:
-              port: {{ .Values.probes.readinessProbe.port | default (.Values.containerPort | default 8080) }}
-              {{- else }}
             httpGet:
               path: {{ .Values.probes.readinessProbe.httpGet.path | quote }}
               port: http
-              {{- with .Values.probes.readinessProbe.httpGet.httpHeaders }}
+              {{- if .Values.probeAuth.enabled }}
               httpHeaders:
-              {{- toYaml . | nindent 16 }}
+                - name: Authorization
+                  value: {{ .Values.probeAuth.authorization | quote }}
               {{- end }}
-              {{- end }}
-            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
-            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 2 }}
-            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold | default 12 }}
-            successThreshold: {{ .Values.probes.readinessProbe.successThreshold | default 1 }}
-            {{- end }}
-            {{- if and .Values.probes .Values.probes.livenessProbe .Values.probes.livenessProbe.enabled }}
+            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.probes.readinessProbe.successThreshold }}
+          {{- end }}
+
+          {{- if .Values.probes.livenessProbe.enabled }}
           livenessProbe:
-          {{- if eq (.Values.probes.livenessProbe.type | default "tcp") "tcp" }}
-            tcpSocket:
-              port: {{ .Values.probes.livenessProbe.port | default (.Values.containerPort | default 8080) }}
-                    {{- else }}
             httpGet:
               path: {{ .Values.probes.livenessProbe.httpGet.path | quote }}
               port: http
-              {{- with .Values.probes.livenessProbe.httpGet.httpHeaders }}
+              {{- if .Values.probeAuth.enabled }}
               httpHeaders:
-              {{- toYaml . | nindent 16 }}
+                - name: Authorization
+                  value: {{ .Values.probeAuth.authorization | quote }}
               {{- end }}
+            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.probes.livenessProbe.successThreshold }}
               {{- end }}
-            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
-            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 2 }}
-            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 6 }}
-            successThreshold: {{ .Values.probes.livenessProbe.successThreshold | default 1 }}
-            {{- end }}
