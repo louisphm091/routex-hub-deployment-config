@@ -58,7 +58,7 @@ spec:
               port: {{ .Values.probes.startupProbe.port | default 8080 }}
                     {{- else }}
             httpGet:
-              path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
+              path: {{ .Values.probes.startupProbe.path | quote }}
               port: http
                       {{- if .Values.probeAuth.enabled }}
               httpHeaders:
@@ -74,7 +74,7 @@ spec:
                   {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.probes.readinessProbe.httpGet.path | quote }}
+              path: {{ .Values.probes.readinessProbe.path | quote }}
               port: http
                       {{- if .Values.probeAuth.enabled }}
               httpHeaders:
@@ -90,7 +90,7 @@ spec:
                   {{- if .Values.probes.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.probes.livenessProbe.httpGet.path | quote }}
+              path: {{ .Values.probes.livenessProbe.path | quote }}
               port: http
                       {{- if .Values.probeAuth.enabled }}
               httpHeaders:
