@@ -63,4 +63,4 @@ spec:
               port: {{ .Values.probes.livenessProbe.httpGet.port }}
             initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
-            successThreshold: {{ .Values.probes.livenessProbe.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 6 }}
