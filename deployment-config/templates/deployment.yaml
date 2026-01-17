@@ -56,8 +56,6 @@ spec:
               port: {{ .Values.probes.readinessProbe.httpGet.port }}
             initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds | default 10 }}
             periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
-            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 2 }}
-            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold | default 6 }}
 
           livenessProbe:
             httpGet:
@@ -65,5 +63,4 @@ spec:
               port: {{ .Values.probes.livenessProbe.httpGet.port }}
             initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
-            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 2 }}
-            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 6 }}
+            successThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 6 }}
