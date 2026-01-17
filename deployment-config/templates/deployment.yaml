@@ -53,14 +53,18 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
+            {{- if eq (.Values.probes.startupProbe.type | default "http") "tcp" }}
+            tcpSocket:
+              port: {{ .Values.probes.startupProbe.port | default 8080 }}
+            {{- else }}
             httpGet:
               path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
               port: http
-            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold }}
-
             {{- end }}
+            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 5 }}
+            timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 60 }}
+          {{- end }}
 
               {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
