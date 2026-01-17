@@ -50,15 +50,17 @@ spec:
             {{- end }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.probes.startupProbe.enabled }}
+          {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
-            {{- if eq (.Values.probes.startupProbe.type | default "http") "tcp" }}
+            {{- $stype := (.Values.probes.startupProbe.type | default "http") }}
+            {{- if eq $stype "tcp" }}
             tcpSocket:
               port: {{ .Values.probes.startupProbe.port | default 8080 }}
             {{- else }}
             httpGet:
-              path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
-              port: {{ .Values.probes.startupProbe.httpGet.port | default "http" }}
-              {{- if .Values.probeAuth.enabled }}
+              path: {{ (.Values.probes.startupProbe.httpGet.path | default "/actuator/health/readiness") | quote }}
+              port: {{ (.Values.probes.startupProbe.httpGet.port | default "http") }}
+              {{- if and (.Values.probeAuth) (.Values.probeAuth.enabled) }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
@@ -73,7 +75,7 @@ spec:
           readinessProbe:
             {{- if eq (.Values.probes.readinessProbe.type | default "http") "tcp" }}
             tcpSocket:
-              port: {{ .Values.probes.readinessProbe.port | default 8080 }}
+              port: {{ .Values.probes.readinessProbe.httpGet.port | default 8080 }}
             {{- else }}
             httpGet:
               path: {{ .Values.probes.readinessProbe.httpGet.path | quote }}
@@ -94,7 +96,7 @@ spec:
           livenessProbe:
             {{- if eq (.Values.probes.livenessProbe.type | default "http") "tcp" }}
             tcpSocket:
-              port: {{ .Values.probes.livenessProbe.port | default 8080 }}
+              port: {{ .Values.probes.livenessProbe.httpGet.port | default 8080 }}
             {{- else }}
             httpGet:
               path: {{ .Values.probes.livenessProbe.httpGet.path | quote }}
