@@ -3,7 +3,7 @@ fullnameOverride: routex-hub-driver-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-driver-service
-  tag: "v0.0.7" # sẽ được cập nhật theo tag/sha
+  tag: "v0.0.15" # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
@@ -42,7 +42,6 @@ probes:
     periodSeconds: 5
     timeoutSeconds: 2
     failureThreshold: 90
-
   readinessProbe:
     enabled: true
     type: http
@@ -53,7 +52,6 @@ probes:
     timeoutSeconds: 3
     failureThreshold: 12
     successThreshold: 1
-
   livenessProbe:
     enabled: true
     type: http
@@ -64,7 +62,6 @@ probes:
     timeoutSeconds: 3
     failureThreshold: 6
     successThreshold: 1
-
 probeAuth:
   enabled: false
 ingress:
