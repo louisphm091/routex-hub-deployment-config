@@ -35,14 +35,6 @@ resources:
     cpu: "1"
     memory: 1Gi
 probes:
-  startupProbe:
-    enabled: true
-    type: tcp
-    port: 8080
-    periodSeconds: 5
-    timeoutSeconds: 2
-    failureThreshold: 120   # ~10 phút
-
   readinessProbe:
     enabled: true
     type: tcp
