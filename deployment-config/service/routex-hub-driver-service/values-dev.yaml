@@ -3,7 +3,7 @@ fullnameOverride: routex-hub-driver-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-driver-service
-  tag: "v0.0.4" # sẽ được cập nhật theo tag/sha
+  tag: "v0.0.7" # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
