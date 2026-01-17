@@ -49,54 +49,56 @@ spec:
                   key: {{ .key | quote }}
             {{- end }}
           resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-          {{- if and .Values.probes .Values.probes.startupProbe .Values.probes.startupProbe.enabled }}
+                      {{- toYaml .Values.resources | nindent 12 }}
+
+                    {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
-          {{- if eq (.Values.probes.startupProbe.type | default "tcp") "tcp" }}
+                      {{- if eq (.Values.probes.startupProbe.type | default "http") "tcp" }}
             tcpSocket:
-              port: {{ .Values.probes.startupProbe.port | default (.Values.containerPort | default 8080) }}
-                    {{- else }}
+              port: {{ .Values.probes.startupProbe.port | default 8080 }}
+                      {{- else }}
             httpGet:
               path: {{ .Values.probes.startupProbe.httpGet.path | quote }}
               port: http
-                      {{- with .Values.probes.startupProbe.httpGet.httpHeaders }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
-              {{- toYaml . | nindent 16 }}
-              {{- end }}
-              {{- end }}
+                - name: Authorization
+                  value: {{ .Values.probeAuth.authorization | quote }}
+                        {{- end }}
+                      {{- end }}
             periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 5 }}
             timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds | default 2 }}
             failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 60 }}
-            {{- end }}
-            {{- if and .Values.probes .Values.probes.readinessProbe .Values.probes.readinessProbe.enabled }}
-          {{- if .Values.probes.readinessProbe.enabled }}
+                    {{- end }}
+
+                    {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
               path: {{ .Values.probes.readinessProbe.httpGet.path | quote }}
               port: http
-              {{- if .Values.probeAuth.enabled }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
-              {{- end }}
-            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold }}
-            successThreshold: {{ .Values.probes.readinessProbe.successThreshold }}
-          {{- end }}
+                        {{- end }}
+            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
+            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold | default 6 }}
+            successThreshold: {{ .Values.probes.readinessProbe.successThreshold | default 1 }}
+                    {{- end }}
 
-          {{- if .Values.probes.livenessProbe.enabled }}
+                    {{- if .Values.probes.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: {{ .Values.probes.livenessProbe.httpGet.path | quote }}
               port: http
-              {{- if .Values.probeAuth.enabled }}
+                        {{- if .Values.probeAuth.enabled }}
               httpHeaders:
                 - name: Authorization
                   value: {{ .Values.probeAuth.authorization | quote }}
-              {{- end }}
-            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
-            successThreshold: {{ .Values.probes.livenessProbe.successThreshold }}
+                        {{- end }}
+            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
+            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 2 }}
+            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 3 }}
+            successThreshold: {{ .Values.probes.livenessProbe.successThreshold | default 1 }}
               {{- end }}
