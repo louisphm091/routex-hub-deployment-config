@@ -50,7 +50,6 @@ spec:
             {{- end }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.probes.startupProbe.enabled }}
-          {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
             {{- $stype := (.Values.probes.startupProbe.type | default "http") }}
             {{- if eq $stype "tcp" }}
