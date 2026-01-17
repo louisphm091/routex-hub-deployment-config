@@ -29,25 +29,39 @@ envFromSecret:
     key: POSTGRES_PASSWORD
 resources:
   requests:
-    cpu: 300m
+    cpu: 500m
     memory: 512Mi
   limits:
     cpu: "1"
     memory: 1Gi
 probes:
-  readinessProbe:
+  startupProbe:
+    enabled: true
     httpGet:
       path: /actuator/health/readiness
       port: http
-    initialDelaySeconds: 20
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 60
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /actuator/health/readiness
+      port: http
     periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 12
+    successThreshold: 1
   livenessProbe:
+    enabled: true
     httpGet:
       path: /actuator/health/liveness
       port: http
-    initialDelaySeconds: 60
     periodSeconds: 20
-    
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
 ingress:
   enabled: true
   className: nginx
