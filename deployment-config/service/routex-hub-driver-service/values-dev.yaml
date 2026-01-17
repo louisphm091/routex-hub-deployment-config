@@ -41,18 +41,13 @@ probes:
       port: http
     initialDelaySeconds: 20
     periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 12
-
   livenessProbe:
     httpGet:
       path: /actuator/health/liveness
       port: http
     initialDelaySeconds: 60
     periodSeconds: 20
-    timeoutSeconds: 5
-    failureThreshold: 6
-
+    
 ingress:
   enabled: true
   className: nginx

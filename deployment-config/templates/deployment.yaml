@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount | default 1 }}
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "routex.name" . }}
@@ -56,11 +57,9 @@ spec:
               port: {{ .Values.probes.readinessProbe.httpGet.port }}
             initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds | default 10 }}
             periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
-
           livenessProbe:
             httpGet:
               path: {{ .Values.probes.livenessProbe.httpGet.path | default "/actuator/health/liveness" }}
               port: {{ .Values.probes.livenessProbe.httpGet.port }}
             initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 20 }}
-            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold | default 6 }}
