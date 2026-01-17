@@ -39,38 +39,34 @@ probes:
     enabled: true
     type: tcp
     port: 8080
-    httpGet:
-      path: /actuator/health/readiness
     periodSeconds: 5
     timeoutSeconds: 2
     failureThreshold: 90
 
   readinessProbe:
     enabled: true
-    type: tcp
-    port: 8080
+    type: http
     httpGet:
       path: /actuator/health/readiness
+      port: http
     periodSeconds: 10
-    timeoutSeconds: 2
+    timeoutSeconds: 3
     failureThreshold: 12
     successThreshold: 1
 
   livenessProbe:
     enabled: true
-    type: tcp
-    port: 8080
+    type: http
     httpGet:
       path: /actuator/health/liveness
+      port: http
     periodSeconds: 20
-    timeoutSeconds: 2
+    timeoutSeconds: 3
     failureThreshold: 6
     successThreshold: 1
 
 probeAuth:
-  enabled: true
-  # base64("admin:admin") ví dụ -> đổi theo user/pass bạn đang dùng
-  authorization: "Basic YWRtaW46YWRtaW4="
+  enabled: false
 ingress:
   enabled: true
   className: nginx
