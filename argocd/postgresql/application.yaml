@@ -9,12 +9,11 @@ spec:
   source:
     repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
     targetRevision: master
-    path: deployment-config/infra/postgresql
-    # Nếu bạn không dùng Helm chart thật sự thì BỎ block helm này đi
-    # helm:
-    #   releaseName: postgresql-dev
-    #   valueFiles:
-    #     - values-dev.yaml
+    path: deployment-config
+    helm:
+      releaseName: postgresql-dev
+      valueFiles:
+        - service/routex-hub-driver-service/values-dev.yaml
 
   destination:
     server: https://kubernetes.default.svc
