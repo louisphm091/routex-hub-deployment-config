@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: postgresql-dev
-  namespace: argocd
+  namespace: orion-dev
 spec:
   project: default
 
@@ -10,10 +10,11 @@ spec:
     repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
     targetRevision: master
     path: deployment-config/infra/postgresql
-    helm:
-      releaseName: routex-driver-service-dev
-      valueFiles:
-        - values-dev.yaml
+    # Nếu bạn không dùng Helm chart thật sự thì BỎ block helm này đi
+    # helm:
+    #   releaseName: postgresql-dev
+    #   valueFiles:
+    #     - values-dev.yaml
 
   destination:
     server: https://kubernetes.default.svc
