@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: postgresql
+    targetRevision: 15.*
+    helm:
+      releaseName: postgresql
+      values: |
+        auth:
+          username: routex
+          password: "routex@2026"
+          database: routex
+          postgresPassword: "routex@2026"
+
+        primary:
+          persistence:
+            enabled: true
+            size: 20Gi
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+
+        service:
+          type: ClusterIP
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: postgresql
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

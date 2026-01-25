@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgresql
-  namespace: orion-dev
+  namespace: postgresql
 spec:
   serviceName: postgresql
   replicas: 1
@@ -14,23 +14,61 @@ spec:
       labels:
         app: postgresql
     spec:
+      terminationGracePeriodSeconds: 30
+
       containers:
         - name: postgresql
           image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 5432
               name: pg
+
           envFrom:
             - secretRef:
                 name: postgresql-secret
+
+          # tránh một số issue permission/empty dir và giữ data gọn
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
+
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB -h 127.0.0.1"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB -h 127.0.0.1"]
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 6
+
   volumeClaimTemplates:
     - metadata:
         name: data
       spec:
         accessModes: ["ReadWriteOnce"]
+        # Nếu cluster bạn không có StorageClass default -> điền vào đây:
+        # storageClassName: "<YOUR_STORAGECLASS>"
         resources:
           requests:
-            storage: 5Gi
+            storage: 20Gi
