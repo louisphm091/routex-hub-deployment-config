@@ -35,12 +35,12 @@ resources:
     cpu: "1"
     memory: 1Gi
 ingress:
-  enabled: true
-  className: nginx
-  host: driver-dev.routex.local
-  path: /
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  tls:
-    enabled: false
-    secretName: ""
+  enabled: false
+#  className: nginx
+#  host: driver-dev.routex.local
+#  path: /
+#  annotations:
+#    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+#  tls:
+#    enabled: false
+#    secretName: ""
