@@ -3,7 +3,7 @@ fullnameOverride: routex-hub-driver-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-driver-service
-  tag: "v0.0.7" # sẽ được cập nhật theo tag/sha
+  tag: "v0.0.16" # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
@@ -23,12 +23,10 @@ env:
     value: "jdbc:postgresql://postgresql.postgresql.svc.cluster.local:5432/routex"
   - name: SPRING_DATASOURCE_USERNAME
     value: routex
-
 envFromSecret:
   - name: SPRING_DATASOURCE_PASSWORD
     secretName: postgresql-secret
     key: POSTGRES_PASSWORD
-
 resources:
   requests:
     cpu: 500m
