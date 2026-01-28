@@ -32,7 +32,7 @@ spec:
             - --kafka-addr
             - PLAINTEXT://0.0.0.0:9092
             - --advertise-kafka-addr
-            - PLAINTEXT://kafka:9092
+            - PLAINTEXT://127.0.0.1:9092
           ports:
             - name: kafka
               containerPort: 9092
