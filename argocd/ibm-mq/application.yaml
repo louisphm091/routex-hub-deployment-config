@@ -11,7 +11,7 @@ spec:
     path: argocd/ibm-mq
   destination:
     server: https://kubernetes.default.svc
-    namespace: messaging
+    namespace: orion-dev
   syncPolicy:
     automated:
       prune: true
