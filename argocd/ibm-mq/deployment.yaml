@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-mq
+  namespace: messaging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibm-mq
+  template:
+    metadata:
+      labels:
+        app: ibm-mq
+    spec:
+      containers:
+        - name: ibm-mq
+          image: icr.io/ibm-messaging/mq:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: mq
+              containerPort: 1414
+            - name: web
+              containerPort: 9443
+          env:
+            - name: LICENSE
+              value: "accept"
+            - name: MQ_QMGR_NAME
+              value: "ROUTEX"
+            # Optional: set admin password (for web console / config depending on image)
+            - name: MQ_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-mq-secret
+                  key: MQ_ADMIN_PASSWORD
+          volumeMounts:
+            - name: mqdata
+              mountPath: /mnt/mqm
+      volumes:
+        - name: mqdata
+          persistentVolumeClaim:
+            claimName: ibm-mq-data
