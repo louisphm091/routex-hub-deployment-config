@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ibm-mq
-  namespace: orion-dev
+  namespace: argocd
 spec:
   replicas: 1
   selector:
