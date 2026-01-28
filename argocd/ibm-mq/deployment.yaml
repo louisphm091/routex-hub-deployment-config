@@ -13,6 +13,9 @@ spec:
       labels:
         app: ibm-mq
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+
       containers:
         - name: ibm-mq
           image: icr.io/ibm-messaging/mq:latest
@@ -27,7 +30,6 @@ spec:
               value: "accept"
             - name: MQ_QMGR_NAME
               value: "ROUTEX"
-            # Optional: set admin password (for web console / config depending on image)
             - name: MQ_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -36,6 +38,10 @@ spec:
           volumeMounts:
             - name: mqdata
               mountPath: /mnt/mqm
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+
       volumes:
         - name: mqdata
           persistentVolumeClaim:
