@@ -7,12 +7,12 @@ spec:
   project: default
 
   source:
-    repoURL: https://charts.jenkins.io
-    chart: jenkins
-    targetRevision: 5.1.6   # ví dụ, có thể update
+    repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
+    targetRevision: master
+    path: argocd
     helm:
       valueFiles:
-        - values.yaml
+        - jenkins/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
