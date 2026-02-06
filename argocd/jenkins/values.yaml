@@ -1,0 +1,83 @@
+controller:
+  # =========================
+  # Jenkins image (OK)
+  # =========================
+  image: "jenkins/jenkins"
+  tag: "2.479.1-jdk17"
+
+  # =========================
+  # Admin (DEV ONLY)
+  # =========================
+  admin:
+    username: admin
+    password: admin123
+
+  serviceType: ClusterIP
+
+  # =========================
+  # 🔴 FIX CRASH INIT: PERMISSION
+  # =========================
+  podSecurityContext:
+    fsGroup: 1000
+
+  containerSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+
+  # =========================
+  # Plugins (TỐI THIỂU – KHÔNG XUNG ĐỘT)
+  # =========================
+  installPlugins:
+    - kubernetes
+    - git
+    - workflow-aggregator
+    - credentials
+    - configuration-as-code
+    - docker-workflow
+
+  # ❌ TẠM THỜI BỎ blueocean để tránh kéo thêm dependency
+  # (khi chạy ổn rồi add lại sau)
+
+  # =========================
+  # Resources
+  # =========================
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+
+  # =========================
+  # Persistence (BẮT BUỘC)
+  # =========================
+  persistence:
+    enabled: true
+    size: 20Gi
+
+  # =========================
+  # Jenkins URL (DEV)
+  # =========================
+  jenkinsUrl: http://jenkins.jenkins.svc.cluster.local:8080
+
+  # =========================
+  # Disable risky defaults (DEV safe)
+  # =========================
+  installLatestPlugins: false
+  installLatestSpecifiedPlugins: false
+
+# ======================================================
+# Jenkins Agents (K8s)
+# ======================================================
+agent:
+  enabled: true
+
+  podTemplates:
+    maven:
+      label: maven
+      containers:
+        - name: maven
+          image: maven:3.9-eclipse-temurin-21
+          ttyEnabled: true
+          command: cat
