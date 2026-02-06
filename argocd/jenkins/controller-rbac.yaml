@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins-controller
+  namespace: jenkins
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: jenkins-controller-role
+  namespace: jenkins
+rules:
+  # Jenkins Kubernetes plugin cần quản lý pod agent
+  - apiGroups: [""]
+    resources: ["pods", "pods/exec", "pods/log"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+
+  # Nếu bạn mount secret vào agent (kaniko dockerconfig, creds, etc.)
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+
+  # Nếu dùng configmap cho JCasC / sidecar / etc.
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+
+  # Một số setup cần events để debug
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+
+  # Nếu bạn dùng PVC cho workspace agent (tuỳ), thường không cần
+  # - apiGroups: [""]
+  #   resources: ["persistentvolumeclaims"]
+  #   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jenkins-controller-rb
+  namespace: jenkins
+subjects:
+  - kind: ServiceAccount
+    name: jenkins-controller
+    namespace: jenkins
+roleRef:
+  kind: Role
+  name: jenkins-controller-role
+  apiGroup: rbac.authorization.k8s.io
