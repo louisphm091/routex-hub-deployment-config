@@ -9,11 +9,7 @@ spec:
   source:
     repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
     targetRevision: master
-    path: argocd
-    helm:
-      releaseName: jenkins
-      valueFiles:
-        - jenkins/
+    path: argocd/jenkins
 
   destination:
     server: https://kubernetes.default.svc
