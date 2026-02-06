@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: routex-hub--service-dev
+  namespace: argocuser
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: |
+      user=registry.gitlab.com/orion-hub/routex-hub-user-service
+
+    # 2) Chỉ lấy tag dạng vX.Y.Z
+    argocd-image-updater.argoproj.io/user.allow-tags: "regexp:^v\\d+\\.\\d+\\.\\d+$"
+
+    # 3) Chọn tag mới nhất theo semver
+    argocd-image-updater.argoproj.io/user.update-strategy: semver
+
+    # 4) Ghi lại về GitOps repo
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    # 5) File values để image-updater sửa (phải TRÙNG file bạn đang dùng)
+    argocd-image-updater.argoproj.io/write-back-target: helmvalues:deployment-config/service/routex-hub-user-service/values-dev.yaml
+  labels:
+    app: routex-hub-user-service
+    env: dev
+spec:
+  project: default
+
+  source:
+    repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
+    targetRevision: master
+    path: deployment-config
+    helm:
+      releaseName: routex-user-service-dev
+      valueFiles:
+        - service/routex-hub-user-service/values-dev.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: orion-dev
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

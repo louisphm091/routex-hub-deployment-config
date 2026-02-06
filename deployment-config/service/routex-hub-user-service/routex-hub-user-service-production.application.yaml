@@ -1,23 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jenkins
+  name: routex-hub-user-service-production
   namespace: argocd
+  labels:
+    app: routex-hub-user-service
+    env: production
 spec:
   project: default
 
   source:
     repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
     targetRevision: master
-    path: argocd
+    path: deployment-config
     helm:
-      releaseName: jenkins
+      releaseName: routex-user-service-production
       valueFiles:
-        - jenkins/
+        - service/routex-hub-user-service/values-production.yaml
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: jenkins
+    namespace: orion-prod
 
   syncPolicy:
     automated:
