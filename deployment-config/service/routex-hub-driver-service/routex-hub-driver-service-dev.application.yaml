@@ -26,7 +26,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
+    repoURL: https://github.com/louisphm091/routex-hub-deployment-config.git
     targetRevision: master
     path: deployment-config
     helm:
