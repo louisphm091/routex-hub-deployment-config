@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: routex-hub-driver-service-production
+  namespace: argocd
+  labels:
+    app: routex-hub-driver-service
+    env: production
+spec:
+  project: default
+
+  source:
+    repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
+    targetRevision: master
+    path: deployment-config
+    helm:
+      releaseName: routex-driver-service-production
+      valueFiles:
+        - service/routex-hub-driver-service/values-production.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: orion-prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
