@@ -1,5 +1,5 @@
 nameOverride: user
-fullnameOverride: routex-hub-user-service
+fullnameOverride: go-routex-user-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-user-service

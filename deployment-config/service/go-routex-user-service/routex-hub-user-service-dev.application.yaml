@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: routex-hub-user-service-dev
+  name: go-routex-user-service
   namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: |
@@ -17,21 +17,21 @@ metadata:
     argocd-image-updater.argoproj.io/write-back-method: git
 
     # 5) File values để image-updater sửa (phải TRÙNG file bạn đang dùng)
-    argocd-image-updater.argoproj.io/write-back-target: helmvalues:deployment-config/service/routex-hub-user-service/values-dev.yaml
+    argocd-image-updater.argoproj.io/write-back-target: helmvalues:deployment-config/service/go-routex-user-service/values-dev.yaml
   labels:
-    app: routex-hub-user-service
+    app: go-routex-user-service
     env: dev
 spec:
   project: default
 
   source:
-    repoURL: https://github.com/louisphm091/routex-hub-deployment-config.git
+    repoURL: https://github.com/GoRoutex/go-routex-deployment-config.git
     targetRevision: master
     path: deployment-config
     helm:
-      releaseName: routex-user-service-dev
+      releaseName: go-routex-user-service
       valueFiles:
-        - service/routex-hub-user-service/values-dev.yaml
+        - service/go-routex-user-service/values-dev.yaml
 
   destination:
     server: https://kubernetes.default.svc

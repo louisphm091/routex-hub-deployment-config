@@ -1,5 +1,5 @@
 nameOverride: driver
-fullnameOverride: routex-hub-management-service
+fullnameOverride: go-routex-management-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-management-service

@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/orion-hub/routex-hub-deployment-config.git
+    repoURL: https://github.com/GoRoutex/go-routex-deployment-config.git
     targetRevision: master
     path: argocd/jenkins
 
