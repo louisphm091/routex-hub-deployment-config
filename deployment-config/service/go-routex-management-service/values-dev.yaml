@@ -3,7 +3,7 @@ fullnameOverride: go-routex-management-service
 replicaCount: 2
 image:
   repository: registry.gitlab.com/orion-hub/routex-hub-management-service
-  tag: "v0.0.16" # sẽ được cập nhật theo tag/sha
+  tag: "v0.0.18" # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
