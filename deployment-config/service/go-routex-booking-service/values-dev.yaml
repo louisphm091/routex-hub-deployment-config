@@ -1,26 +1,19 @@
 nameOverride: booking
 fullnameOverride: go-routex-booking-service
-
 replicaCount: 2
-
 image:
   repository: ghcr.io/goroutex/go-routex-booking-service
-  tag: "v0.0.1"
+  tag: "v0.0.5"
   pullPolicy: IfNotPresent
-
 containerPort: 8080
-
 imagePullSecrets:
   - name: ghcr-secret
-
 serviceAccount:
   create: true
   name: go-routex-booking-sa
-
 service:
   type: ClusterIP
   port: 80
-
 env:
   - name: SPRING_PROFILES_ACTIVE
     value: dev
@@ -30,12 +23,10 @@ env:
     value: "jdbc:postgresql://postgresql.postgresql.svc.cluster.local:5432/routex"
   - name: SPRING_DATASOURCE_USERNAME
     value: routex
-
 envFromSecret:
   - name: SPRING_DATASOURCE_PASSWORD
     secretName: postgresql-secret
     key: POSTGRES_PASSWORD
-
 resources:
   requests:
     cpu: 500m
@@ -43,14 +34,13 @@ resources:
   limits:
     cpu: "1"
     memory: 1Gi
-
 ingress:
   enabled: false
-#  className: nginx
-#  host: booking-dev.routex.local
-#  path: /
-#  annotations:
-#    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-#  tls:
-#    enabled: false
-#    secretName: ""
+  #  className: nginx
+  #  host: booking-dev.routex.local
+  #  path: /
+  #  annotations:
+  #    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  #  tls:
+  #    enabled: false
+  #    secretName: ""
