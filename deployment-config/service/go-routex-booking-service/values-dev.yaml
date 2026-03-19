@@ -3,7 +3,7 @@ fullnameOverride: go-routex-booking-service
 replicaCount: 2
 image:
   repository: ghcr.io/goroutex/go-routex-booking-service
-  tag: "v0.0.13"
+  tag: "v0.0.14"
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
