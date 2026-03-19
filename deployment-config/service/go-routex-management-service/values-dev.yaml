@@ -23,8 +23,10 @@ env:
     value: "jdbc:postgresql://postgresql.postgresql.svc.cluster.local:5432/routex"
   - name: SPRING_DATASOURCE_USERNAME
     value: routex
-  - name: REDIS_HOST
+  - name: APP_REDIS_HOST
     value: redis
+  - name: APP_REDIS_PORT
+    value: "6379"
   - name: KAFKA_BOOTSTRAP_SERVER
     value: kafka:9092
 envFromSecret:
