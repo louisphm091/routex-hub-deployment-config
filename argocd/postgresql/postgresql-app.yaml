@@ -93,11 +93,11 @@ spec:
             failureThreshold: 6
           resources:
             requests:
-              cpu: 200m
-              memory: 512Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
-              cpu: "1"
-              memory: 1Gi
+              cpu: 500m
+              memory: 768Mi
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data

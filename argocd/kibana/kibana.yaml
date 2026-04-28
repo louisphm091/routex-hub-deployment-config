@@ -1,0 +1,21 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: foodio-kibana
+  namespace: elastic-search
+spec:
+  version: 9.1.4
+  count: 1
+  elasticsearchRef:
+    name: foodio-es
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 200m
+            limits:
+              memory: 1Gi
+              cpu: 500m

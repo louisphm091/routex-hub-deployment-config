@@ -33,6 +33,13 @@ spec:
             - INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:19092
             - --advertise-kafka-addr
             - INTERNAL://kafka:9092,EXTERNAL://host.docker.internal:19092
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
           ports:
             - name: kafka-internal
               containerPort: 9092
