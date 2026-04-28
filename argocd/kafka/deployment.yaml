@@ -23,7 +23,7 @@ spec:
             - --smp
             - "1"
             - --memory
-            - "1G"
+            - "512M"
             - --reserve-memory
             - "0M"
             - --node-id
