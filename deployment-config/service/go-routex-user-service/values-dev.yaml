@@ -3,7 +3,7 @@ fullnameOverride: go-routex-user-service
 replicaCount: 2
 image:
   repository: ghcr.io/goroutex/go-routex-user-service
-  tag: "v0.0.24" # sẽ được cập nhật theo tag/sha
+  tag: "v0.0.25" # sẽ được cập nhật theo tag/sha
   pullPolicy: IfNotPresent
 containerPort: 8080
 imagePullSecrets:
